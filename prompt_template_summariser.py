@@ -5,7 +5,7 @@ import os
 from google import genai
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
-from langchain_ollama import ChatOllama
+#from langchain_ollama import ChatOllama
 # Load environment variables
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
@@ -18,8 +18,8 @@ if not api_key:
 client = genai.Client(api_key=api_key)
 
 def main():
-    print("✅ Ollama client initialized successfully!")
-    print("Hello from langchain-course!\n")
+    print("✅ GEMINI client initialized successfully!")
+    print("Hello from GEMINI PERSONALITY ANALYST !\n This script tells the history of Elon Musk and summarizes it using Local Ollama-Gemma.\n")
 
     # Person information to summarize
     information = '''
@@ -44,26 +44,26 @@ Please create:
         template=summary_template
     )
     
-    llm = ChatOllama(
+    '''llm = ChatOllama(
     model="gemma3:270m",
     temperature=0,
     # other params...
-)
+)'''
     # Format the prompt with the actual information for gemini client
-    #prompt_text = summary_prompt_template.format(information=information)
+    prompt_text = summary_prompt_template.format(information=information)
     
-    chain = summary_prompt_template | llm
+    #chain = summary_prompt_template | llm
     # Call the free-tier Gemini model
-    '''response = client.models.generate_content(
+    response = client.models.generate_content(
         model="models/gemini-2.5-flash",
         contents=prompt_text
     )
-    '''
+    
     #ollama response
-    response = chain.invoke({ "information": information })
+    #response = chain.invoke({ "information": information })
 
-    print("Ollama Response:\n")
-    print(response.content)
+    print("Gemini Response:\n")
+    print(response.candidates[0].content.parts[0].text)
 
 if __name__ == "__main__":
     main()

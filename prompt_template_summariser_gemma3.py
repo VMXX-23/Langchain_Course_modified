@@ -4,7 +4,7 @@ from httpx import Client
 sys.stdout.reconfigure(encoding='utf-8')
 #USING GEMMA 3 INSTEAD OF GEMINI 
 import os
-from google import genai
+#from google import genai
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_ollama import ChatOllama
@@ -22,14 +22,14 @@ if not api_key:
     raise ValueError("GEMINI_API_KEY not found! Check your .env file or path.")
 
 # Initialize the Gemini client
-client = genai.Client(api_key=api_key)
+#client = genai.Client(api_key=api_key)
 
 def main():
     print("✅ Ollama client initialized successfully!")
-    print("Hello from langchain-course!\n")
+    print("Hello from langchain-course!\n This script tells the history of Elon Musk and summarizes it using Local Ollama-Gemma.\n")
     
-    langsmith_client = LangsmithClient()
-    print(langsmith_client.list_projects())
+    langsmith_client = LangsmithClient() #Instantiate the Langsmith client
+    #print(langsmith_client.list_projects())
 
     # Person information to summarize
     information = '''
@@ -64,11 +64,7 @@ Please create:
     
     chain = summary_prompt_template | llm
     # Call the free-tier Gemini model
-    '''response = client.models.generate_content(
-        model="models/gemini-2.5-flash",
-        contents=prompt_text
-    )
-    '''
+  
     #ollama response
     response = chain.invoke({ "information": information })
 
@@ -77,4 +73,3 @@ Please create:
 
 if __name__ == "__main__":
     main()
-##ERRROR TO DO WITH THE INSTALLATION OF OLLAMA AND GEMMA
