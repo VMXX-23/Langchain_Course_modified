@@ -67,4 +67,3 @@ Please create:
 
 if __name__ == "__main__":
     main()
-##ERRROR TO DO WITH THE INSTALLATION OF OLLAMA AND GEMMA
