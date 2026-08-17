@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from langchain_chroma import Chroma
 from langchain_classic.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
-from langchain_openai import OpenAIEmbeddings
+#from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from langchain_tavily import TavilyCrawl, TavilyExtract, TavilyMap
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -25,7 +25,7 @@ os.environ["SSL_CERT_FILE"] = certifi.where()
 os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 
 
-embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001", show_progress_bar=False, chunk_size=50, retry_min_seconds=10)
+embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001", google_api_key=os.environ["GEMINI_API_KEY"], show_progress_bar=False, chunk_size=50, retry_min_seconds=10)
 
 #Retry again after sometime incase of quota exceeded
 import time

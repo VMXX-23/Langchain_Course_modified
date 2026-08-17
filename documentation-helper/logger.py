@@ -13,7 +13,7 @@ class Colors:
 
 
 def log_info(message: str, color: str = Colors.CYAN):
-    """Log info message with color"""
+    """Log info message with colors!"""
     print(f"{color}ℹ️  {message}{Colors.END}")
 
 
@@ -34,6 +34,7 @@ def log_warning(message: str):
 
 def log_header(message: str):
     """Log header message with emphasis"""
-    print(f"\n{Colors.BOLD}{Colors.PURPLE}{'='*60}{Colors.END}")
-    print(f"{Colors.BOLD}{Colors.PURPLE}🚀 {message}{Colors.END}")
-    print(f"{Colors.BOLD}{Colors.PURPLE}{'='*60}{Colors.END}\n")
+    separator = "=" * 60
+    print(f"\n{Colors.BOLD}{Colors.PURPLE}{separator}{Colors.END}")
+    print(f"{Colors.BOLD}{Colors.PURPLE}🚀  {message}{Colors.END}")
+    print(f"{Colors.BOLD}{Colors.PURPLE}{separator}{Colors.END}\n")

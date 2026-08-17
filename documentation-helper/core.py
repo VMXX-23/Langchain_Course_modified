@@ -13,7 +13,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 load_dotenv()
 
 #Initialze embeddings (Gemini)
-embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001", show_progress_bar=False, chunk_size=5, retry_min_seconds=10)
+embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001",google_api_key=os.environ["GEMINI_API_KEY"], show_progress_bar=False, chunk_size=5, retry_min_seconds=10)
 
 
 #Initialize vector store
@@ -24,6 +24,8 @@ vectorstore = PineconeVectorStore(index_name=index, embedding=embeddings)
 llm = init_chat_model(
     "gemini-2.5-flash",
     model_provider="google_genai",
+        google_api_key=os.environ["GEMINI_API_KEY"],
+
     max_retries=6,
     temperature=0
 )
