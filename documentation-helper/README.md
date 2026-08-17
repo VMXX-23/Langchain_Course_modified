@@ -1,4 +1,4 @@
-# LangChain Documentation Helper — Branch: `doc-assist`
+# LangChain Documentation Helper — Branch: `DocAsst`
 
 > An **end-to-end application** for documentation intelligence built with **LangChain**, **Gemini**, **Pinecone**, **Tavily**, and **Streamlit**. This branch demonstrates how to move beyond static chains into full agentic RAG architectures with tool-artifact decoupling and quota-aware document ingestion pipelines.
 
