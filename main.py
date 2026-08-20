@@ -43,4 +43,11 @@ def main():
 if __name__ == "__main__":
     main()
     res = app.invoke({"messages":[HumanMessage(content="What is the wheather in Chennai now and list it till the end of triple of that value?")]})
-    print(res["messages"][LAST].content)
+    #print(res["messages"][LAST].content)
+    content = res["messages"][LAST].content #Get messages
+    #Messages contains Text, Type and extras.signature: Extract only text
+    if isinstance(content, list):
+        text = "\n".join([msg["text"] for msg in content if isinstance(msg,dict) and  msg["type"] == "text"])
+    else:
+        text = str(content)
+    print(text)
