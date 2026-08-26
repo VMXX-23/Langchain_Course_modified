@@ -17,19 +17,7 @@ The repository contains two distinct agent patterns within the same branch:
 2. **Reflexion Agent (`reflex_main.py`)**: An extended agent loop (`draft` → `execute_tools` → `revise`) that combines internal self-critique with external web search tools (Tavily) to ground responses with factual data and citations.
   > Reflexion Agent 
 (Start) ──> Draft ──> Execute Tools (Tavily Search) ──> Revise ──> Should Continue? ──> (End)
----
 
-## 📁 Repository Structure
-
-```text
-├── chains.py          # LLM configurations & system prompt templates for standard Reflection Agent
-├── main.py            # Entry point and StateGraph definition for Reflection Agent
-├── reflex_schemas.py  # Pydantic models (AnswerQuestion, ReviseAnswer, Reflection) for tool binding
-├── reflex_chains.py   # Prompts, model bindings, and tool chains for the Reflexion Agent
-├── reflex_main.py     # Entry point, tool execution node (Tavily), and graph definitions for Reflexion Agent
-├── pyproject.toml     # Dependency specifications (managed via uv)
-└── README.md          # Project documentation
-```
 ## ⚡ Technical Highlights
 
 1. **State Management**: Built on LangGraph StateGraph using Annotated[list[BaseMessage], add_messages] to manage message histories seamlessly across loop iterations.
@@ -112,6 +100,51 @@ execute_tools = ToolNode(
         StructuredTool.from_function(run_queries, name=ReviseAnswer.__name__),
     ]
 )
+```
+---
+## Architectural Comparison
+| Feature / Dimension | Reflection Agent (`main.py`) | Reflexion Agent (`reflex_main.py`) |
+| --- | --- | --- |
+| **Primary Goal** | Self-correction focusing on tone, style, and general text polish. | Grounded research, factual accuracy, and citation verification. |
+| **External Tools** | **None** (Closed LLM reasoning loop). | **`TavilySearch`** (Integrated via `ToolNode`). |
+| **Parsing Mechanism** | Custom regex / delimiter parsing (e.g., `[EXPLANATION]`, `[TWEET]`). | Strict Pydantic Schema Parsing via `PydanticToolsParser` (`AnswerQuestion`, `ReviseAnswer`). |
+| **State Output Format** | Unstructured or tag-separated string responses. | Strongly-typed objects containing explicit text, reflection metrics, search queries, and references. |
+| **Graph Node Flow** | `generate` $\leftrightarrow$ `reflect` | `draft` $\rightarrow$ `execute_tools` $\rightarrow$ `revise` |
+| **Context Memory** | Direct conversational history in `state["messages"]`. | Extended episodic memory combining search feedback with past critiques. |
+| **Target Model** | `gemini-3.6-flash` | `gemini-3.6-flash` |
+---
+## Output / Working
+### 1. Reflection Agent Execution (main.py)
+**-> LangGraph ASCII Graph Visualization**
+
+
+https://github.com/user-attachments/assets/75a247fb-a4a1-4f1a-a1c8-1d5cecf45b54
+
+**-> Terminal Output & Iterative Enhancement**
+<img width="1876" height="1566" alt="image" src="https://github.com/user-attachments/assets/053845cd-fbeb-4998-97b0-c12b6262ce17" />
+
+### 2. Reflexion Agent Execution (reflex_main.py)
+**LangGraph Graph Execution Flow**
+
+
+https://github.com/user-attachments/assets/c6dffa09-d64f-409b-bb2f-a5eebac6bc2d
+
+
+
+**-> Tavily Tool Search & Revised Final Answer**
+
+<img width="1888" height="1173" alt="image" src="https://github.com/user-attachments/assets/31541cbb-5650-4cf5-8fcb-5f3e85393a9a" />
+
+## 📁 Repository Structure
+
+```text
+├── chains.py          # LLM configurations & system prompt templates for standard Reflection Agent
+├── main.py            # Entry point and StateGraph definition for Reflection Agent
+├── reflex_schemas.py  # Pydantic models (AnswerQuestion, ReviseAnswer, Reflection) for tool binding
+├── reflex_chains.py   # Prompts, model bindings, and tool chains for the Reflexion Agent
+├── reflex_main.py     # Entry point, tool execution node (Tavily), and graph definitions for Reflexion Agent
+├── pyproject.toml     # Dependency specifications (managed via uv)
+└── README.md          # Project documentation
 ```
 ---
 ## 🚀 Getting Started
