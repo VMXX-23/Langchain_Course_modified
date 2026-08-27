@@ -1,16 +1,11 @@
 import datetime
 from dotenv import load_dotenv
-
 load_dotenv()
-
 from langchain_core.output_parsers import JsonOutputToolsParser, PydanticToolsParser
-
 # Transforms func calling to a json or pydantic formats
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_google_genai import ChatGoogleGenerativeAI
-
 from langchain_core.messages import HumanMessage
-
 from reflex_schemas import AnswerQuestion
 
 model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite")
