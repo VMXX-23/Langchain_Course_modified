@@ -1,14 +1,12 @@
 from typing import Any, Dict
-
 from graph.chains.generation import generation_chain
 from graph.state import GraphState
-
+"""READS THE DOCUMENTS AND STARTS THE PROCESS"""
 
 def generate(state: GraphState) -> Dict[str, Any]:
     print("---GENERATE---")
     question = state["question"]
     documents = state["documents"]
-
     #debug
     print("DOCUMENT COUNT:", len(documents))
 

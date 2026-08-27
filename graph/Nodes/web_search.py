@@ -14,12 +14,11 @@ web_search_tool = TavilySearchResults(max_results=3)
 def web_search(state: GraphState)->dict[str, Any]:
     print("--WEB SEARCH---")
     question = state["question"]
-    documents = state.get("documents")
+    #documents = state.get("documents")
     '''Earlier state["documents"]'''
 
     #Use ofr TavilySearchResults
     #tavily_results = web_search_tool.invoke({"query": question})
-
 
     tavily_response = web_search_tool.invoke({"query": question})
     tavily_results = tavily_response["results"]
@@ -36,7 +35,7 @@ def web_search(state: GraphState)->dict[str, Any]:
     else:
         documents = [web_results]
     '''
-    # Modif: Combines with individual tavily data
+    # Modif: Combines with individual tavily data: Because web_search is only triggered when local vector retrieval fails or returns irrelevant chunks (graded as noisy by grade_documents)
     documents = [
         Document(page_content=result["content"])
         for result in tavily_results
