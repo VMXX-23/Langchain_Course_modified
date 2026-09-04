@@ -18,9 +18,8 @@ This repository houses an enterprise-grade, autonomous job search assistant engi
 
 ## 📸 Execution Showcase
 
-*(Insert a screenshot of your terminal running the agent here)*
+<img width="1111" height="654" alt="image" src="https://github.com/user-attachments/assets/2404d281-b5b7-43bc-9377-599730bdff8d" />
 
-![Execution Showcase](docs/images/execution_demo.png)
 Model Example
 ```text
 Welcome to Job search tool 
