@@ -61,6 +61,9 @@ The application is divided into two major phases:
 
 
 ```
+<img width="588" height="181" alt="image" src="https://github.com/user-attachments/assets/e327a97b-7b2d-4452-b8a3-b10d276c6ed1" />
+
+
  ## Phase 2 — Retrieval & Inference Phase
 ```text
  User Question
@@ -252,13 +255,17 @@ python ingestion.py
 
 ```
 
+https://github.com/user-attachments/assets/dc9bb079-f719-4bba-9def-23184e9e4e65
+
 
 *Crawls target sites, splits content into chunks, generates embeddings, and uploads vectors to Pinecone.*
+
 2. **Launch Streamlit Frontend:**
 ```bash
 streamlit run main.py
 
 ```
+<img width="971" height="460" alt="image" src="https://github.com/user-attachments/assets/576ace13-5168-4b41-8bd6-c272d344b973" />
 
 *Opens the interactive web interface for documentation QA.*
 
