@@ -8,7 +8,7 @@ from langsmith import traceable
 #Need to use Google SDK for function calling
 from google import genai
 from google.genai import types
-from langchain_google_genai import ChatGoogleGenerativeAI
+#from langchain_google_genai import ChatGoogleGenerativeAI
 #import ollama
 # Just checks for constant price list and discount tiers, no database or API calls are made in this example.
 
@@ -203,7 +203,6 @@ def run_agent(question: str):
             )
             #print(text)
             return text
-        #tool_calls = ai_message.tool_calls
         #Gemini syntax
         #tool_calls = ai_message.tool_calls[0]
         # If no tool calls, this is the final answer
@@ -226,21 +225,19 @@ def run_agent(question: str):
         tool_name = function_call.name
         tool_args = dict(function_call.args)
 
-        #print(f"[Tool Selected] {tool_name}")
-        #print(f"Arguments: {tool_args}")
+        #Debug check: print(f"[Tool Selected] {tool_name}")
+        #Debug check: print(f"Arguments: {tool_args}")
 
         tool_to_use = tools_dict.get(tool_name)
 
         if tool_to_use is None:
             raise ValueError(f"Unknown tool: {tool_name}")
 
-
-
         # Difference 7: Direct function call instead of tool.invoke()
         observation = tool_to_use(**tool_args)
 
 
-        #print(f"  [Tool Result] {observation}")
+        #Debugging: print(f"  [Tool Result] {observation}")
 
         messages.append(response.candidates[0].content)
         
@@ -265,19 +262,18 @@ def run_agent(question: str):
     print("ERROR: Max iterations reached without a final answer")
     return None
 
-
-
-
-
 def main():
     print("Welcome to the Product Price and Discount Agent!")
-    user_question = input("What is the product : and discount tier you want to know about? (e.g., 'prod_001 tier_1'): ")
+    user_input_txt = (
+        "What is the product and discount tier you want to know about? (e.g., 'prod_001 tier_1'):\n"
+    " Discount Tiers:\n"
+    "  -> tier1 : 30% Discount\n"
+    "  -> tier2 : 50% Discount\n"
+    "  -> tier3 : 80% Discount\n"
+    ":>")
+    user_question = input(user_input_txt)
     result = run_agent(user_question)  
-    print(f"Result: {result}")
-    
+    print(f"Result: {result}")  
     
 if __name__ == "__main__":
     main()
-
-#SWITCH TO GEMINI TO SUPPORT FUNCTION CALLING
-    

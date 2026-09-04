@@ -5,7 +5,7 @@ from langchain.tools import tool
 from langchain.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
 from langsmith import traceable
 from langchain_google_genai import ChatGoogleGenerativeAI
-
+#Just checks for constant price list and discount tiers, no database or API calls are made in this example.
 
 MAX_ITERATION = 10
 
@@ -26,13 +26,13 @@ def get_prod_price(product_id: str) -> str:
         "keyboard": 1500.0,
         "laptop": 5000.0,
     }
-    return product_prices.get(product_id.lower, "Product not found")
+    return product_prices.get(product_id.lower(), "Product not found")
 
 @tool
 def apply_discount(price: float , discount_tier : str) -> float:
     """
     Apply a discount to the price based on the discount tier.
-    Available discount tiers: Gold(tier1), Silver(tier2), Bronze(tier3) 
+    Available discount tiers: gold( or tier1), silver( or tier2), bronze( or tier3) 
     """
     print(f"Applying discount for price: {price} with tier: {discount_tier}")
     
@@ -40,6 +40,12 @@ def apply_discount(price: float , discount_tier : str) -> float:
         "tier1": 0.30,  # 30% discount
         "tier2": 0.50,  # 50% discount
         "tier3": 0.80,  # 80% discount
+        "tier1": 0.30,
+        "bronze": 0.30,
+        "tier2": 0.50,
+        "silver": 0.50,  # Additional maps added just in case the user uses the tier names instead of the tier numbers
+        "tier3": 0.80,
+        "gold": 0.80,
     }
     
     discount_rate = discount_rates.get(discount_tier, 0)
@@ -102,7 +108,18 @@ def run_agent(question: str):
         #If no tool calls are made, return the AI's response
         if not tool_calls:
             print('No tool calls made. Returning AI response:')
-            return ai_message.content
+            content = ai_message.content
+            if isinstance(content, list):
+                text_blocks = [
+                    block["text"]
+                    for block in content
+                    if isinstance(block, dict) and block.get("type") == "text"
+                ]
+                return "\n".join(text_blocks)
+
+            return str(content)
+        
+        
         #Process only the first tool call for simplicity
         tool_call = tool_calls[0]
         tool_name = tool_call.get("name")
@@ -124,7 +141,14 @@ def run_agent(question: str):
 
 def main():
     print("Welcome to the Product Price and Discount Agent!")
-    user_question = input("What is the product : and discount tier you want to know about? (e.g., 'prod_001 tier_1'): ")
+    user_input_txt = (
+        "What is the product and discount tier you want to know about? (e.g., 'prod_001 tier_1'):\n"
+    " Discount Tiers:\n"
+    "  -> tier1 : 30% Discount\n"
+    "  -> tier2 : 50% Discount\n"
+    "  -> tier3 : 80% Discount\n"
+    ":>")
+    user_question = input(user_input_txt)
     result = run_agent(user_question)  
     print(f"Result: {result}")
     

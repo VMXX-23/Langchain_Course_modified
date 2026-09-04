@@ -16,8 +16,6 @@ if not api_key:
 # Initialize the Gemini client
 client = genai.Client(api_key=api_key)
 
-
-
 MAX_ITERATION = 10
 MODEL = "gemini-3.5-flash"
 #TOOLS
@@ -68,6 +66,12 @@ def apply_discount(price: float , discount_tier : str) -> float:
         "tier1": 0.30,  # 30% discount
         "tier2": 0.50,  # 50% discount
         "tier3": 0.80,  # 80% discount
+        "tier1": 0.30,
+        "bronze": 0.30,
+        "tier2": 0.50,
+        "silver": 0.50,  # Additional maps added just in case the user uses the tier names instead of the tier numbers
+        "tier3": 0.80,
+        "gold": 0.80,
     }
     
     discount_rate = discount_rates.get(discount_tier, 0)
@@ -123,8 +127,6 @@ Action: [{tool_names}]
 Action Input: ...
 Observation: ...
 
-
-
 Thought: I now know the final answer.
 Final Answer: ...
 Begin.
@@ -149,7 +151,7 @@ def gemini_chat_traced(prompt: str):
        # tools=tools_dict,
        )
     )
-    print(f"Gemini response: {response}")
+    #print(f"Gemini response: {response}")
     return response
 
 #Agent loop
@@ -164,13 +166,6 @@ def run_agent(question: str):
     for iteration in range(1, MAX_ITERATION):  # Limit to MAX iterations
         print(f"Iteration {iteration}:")
         full_prompt = prompt + history
-        
-        #stop token to disable the LLM from generating own observations/ We inject the observations from the tool calls into the prompt instead.
-        '''response = gemini_chat_traced(
-            model=MODEL,
-            messages=[{"role": "user", "content": full_prompt}],
-            options={"Stop": ["Observation:"], "temperature":0}  # Stop token to prevent LLM from generating its own observations
-        )'''
         response = gemini_chat_traced(full_prompt)
         output = response.text
         #or output = response.candidates[0].content.parts[0].text 
@@ -208,14 +203,11 @@ def run_agent(question: str):
         #raw_args = [x.strip() for x in tool_input_raw.split(",")]
         #args = [x.split("=", 1)[-1].strip().strip("'\"") for x in raw_args]
         
-
-
         print(f"  [Tool Executing] {tool_name}({args})...")
         if tool_name not in tools_dict:
             observation = f"Error: Tool '{tool_name}' not found. Available tools: {list(tools_dict.keys())}"
         else:
             observation = str(tools_dict[tool_name](**args))
-
 
         print(f"  [Tool Result] {observation}")
         
@@ -226,16 +218,18 @@ def run_agent(question: str):
     print("ERROR: Max iterations reached without a final answer")
     return None
 
-
-    
-    
-
 def main():
     print("Welcome to the Product Price and Discount Agent!")
-    user_question = input("What is the product : and discount tier you want to know about? (e.g., 'prod_001 tier_1'): ")
+    user_input_txt = (
+        "What is the product and discount tier you want to know about? (e.g., 'prod_001 tier_1'):\n"
+    " Discount Tiers:\n"
+    "  -> tier1 : 30% Discount\n"
+    "  -> tier2 : 50% Discount\n"
+    "  -> tier3 : 80% Discount\n"
+    ":>")
+    user_question = input(user_input_txt)
     result = run_agent(user_question)  
     print(f"Result: {result}")
-    
     
 if __name__ == "__main__":
     main()
