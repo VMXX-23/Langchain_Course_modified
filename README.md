@@ -137,3 +137,17 @@ uv run --active tool_calling.py
 
 ## 💡 Example Terminal Output
 
+1. Function Calling
+   _Function Calling is the model's low-level, native API request containing the target function name and arguments_
+  <img width="1099" height="559" alt="image" src="https://github.com/user-attachments/assets/d0cca88f-b1b5-40ab-bc34-cb48ea3ae6c5" />
+
+3. **Tool Calling**
+  _Tool Calling returns structured JSON payload objects matching bound tool schemas_
+  <img width="1167" height="607" alt="image" src="https://github.com/user-attachments/assets/02020dd5-3dda-4194-b2e0-c82677afb4d0" />
+
+4. **Using Regex and Raw-React prompt template**
+   
+   _Raw ReAct returns unstructured text with explicit Thought/Action/Observation reasoning steps_
+  <img width="1164" height="646" alt="image" src="https://github.com/user-attachments/assets/c6a6019b-c735-435b-bc68-3469adb31cf2" />
+<img width="1016" height="445" alt="image" src="https://github.com/user-attachments/assets/abeab685-7fc9-45ea-8361-ec029811c8a6" />
+
