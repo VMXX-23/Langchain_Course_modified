@@ -127,13 +127,14 @@ https://github.com/user-attachments/assets/75a247fb-a4a1-4f1a-a1c8-1d5cecf45b54
 **LangGraph Graph Execution Flow**
 
 
-https://github.com/user-attachments/assets/c6dffa09-d64f-409b-bb2f-a5eebac6bc2d
+
+https://github.com/user-attachments/assets/d1fb0d9c-d374-4442-89f5-8ca1261046a2
 
 
 
 **-> Tavily Tool Search & Revised Final Answer**
 
-<img width="1888" height="1173" alt="image" src="https://github.com/user-attachments/assets/31541cbb-5650-4cf5-8fcb-5f3e85393a9a" />
+<img width="1473" height="608" alt="image" src="https://github.com/user-attachments/assets/7a23de92-593b-4860-ae25-cd092966974f" />
 
 ## 📁 Repository Structure
 
